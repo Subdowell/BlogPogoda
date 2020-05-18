@@ -12,6 +12,13 @@
         {% endif %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.text|linebreaksbr }}</p>
+        <hr>
+        {% for comment in comments %}
+            <p>{{ comment.created }}</p>
+            <p>{{ comment.author.first_name }}
+            {{ comment.author.last_name }}</p>
+            <p>{{ comment.text }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post
+from .models import Post, Comment
 from django.utils import timezone
 from .forms import PostForm
 
@@ -11,7 +11,8 @@ def post_list(request):
 
 def post_detail(request,pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post':post})
+    comments = Comment.objects.filter(page=post)
+    return render(request, 'blog/post_detail.html', {'post':post, 'comments':comments})
 
 def post_new(request):
     if request.method == "POST":
