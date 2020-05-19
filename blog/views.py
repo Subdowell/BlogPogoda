@@ -14,6 +14,9 @@ def post_detail(request,pk):
     comments = Comment.objects.filter(page=post)
     return render(request, 'blog/post_detail.html', {'post':post, 'comments':comments})
 
+def static_page(request):
+    return render(request, 'blog/static_page.html')
+
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -40,3 +43,4 @@ def post_edit(request,pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form':form})
+
