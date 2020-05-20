@@ -20,7 +20,7 @@ def static_page(request):
     return render(request, 'blog/static_page.html')
 
 def creat_comment(request):
-    new_user = User(first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
+    new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
     new_user.set_password(request.POST.get('password'))
     new_user.save()
     return render(request, 'blog/static_page.html')
