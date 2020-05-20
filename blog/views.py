@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from django.utils import timezone
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -17,12 +17,14 @@ def post_detail(request,pk):
     return render(request, 'blog/post_detail.html', {'post':post, 'comments':comments})
 
 def static_page(request):
-    return render(request, 'blog/static_page.html')
+    form = CommentForm()
+
+    return render(request, 'blog/static_page.html', {'form':form})
 
 def creat_comment(request):
-    new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
-    new_user.set_password(request.POST.get('password'))
-    new_user.save()
+    # new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
+    # new_user.set_password(request.POST.get('password'))
+    # new_user.save()
     return render(request, 'blog/static_page.html')
 
 def post_new(request):

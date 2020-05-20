@@ -5,37 +5,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 <form action="/add-comment-url/" method="post">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="row-6">
-                            <label>Name:</label>
-                            <input type="text" name="first_name">
-                        </div>
-                        <div class="row-6">
-                            <label>Login:</label>
-                            <input type="text" name="username">
-                        </div>
-                        <div class="row-6">
-                            <label>Last name:</label>
-                            <input type="text" name="last_name">
-                        </div>
-                        <div class="row-6">
-                            <label>Password:</label>
-                            <input type="password" name="password">
-                        </div>
-                        <div class="row-6">
-                            <label>Comments:</label>
-                            <textarea></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="submit" value="Knopka">
-                        </div>
-
-                    </div>
+                    {{ form.as_p }}
+                    <input type="submit" value="Knopka">
                 </form>
             </div>
         </div>
