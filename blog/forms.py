@@ -1,6 +1,8 @@
 from django import forms
-
 from .models import Post
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -8,6 +10,19 @@ class PostForm(forms.ModelForm):
         fields = ('title', 'text',)
 
 class CommentForm(forms.Form):
-    text = forms.CharField(max_length=250)
-    page = forms.IntegerField()
+    text = forms.CharField( label="Text comment:", max_length=250)
+    page = forms.IntegerField(label="Id page:")
+
+    def clean_page(self):
+        page_id = self.cleaned_data['page']
+
+        if not Post.objects.filter(pk=page_id).exists():
+            raise forms.ValidationError("Page with id = s% doesn't exist" % page_id)
+        return page_id
+
+class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'password', 'email']
 

@@ -9,4 +9,6 @@ urlpatterns = [
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
     path('main/', views.static_page),
     path('add-comment-url/', views.creat_comment),
+    path('login/', views.login_view),
+    path('registration/', views.registration_view),
 ]

@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Comment
 from django.utils import timezone
-from .forms import PostForm, CommentForm
-from django.contrib.auth import get_user_model
+from .forms import PostForm, CommentForm, RegistrationForm
+from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 User = get_user_model()
 
 
@@ -18,14 +19,21 @@ def post_detail(request,pk):
 
 def static_page(request):
     form = CommentForm()
-
     return render(request, 'blog/static_page.html', {'form':form})
 
 def creat_comment(request):
     # new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
     # new_user.set_password(request.POST.get('password'))
     # new_user.save()
-    return render(request, 'blog/static_page.html')
+    context={}
+    if request.method == 'POST':
+        form =CommentForm(request.POST)
+        if form.is_valid():
+            print('Vse ok')
+        else:
+            print('Form ne valid')
+        context['form'] = form
+    return render(request, 'blog/static_page.html', context=context)
 
 def post_new(request):
     if request.method == "POST":
@@ -53,4 +61,36 @@ def post_edit(request,pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form':form})
+
+def login_view(request):
+
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('/catalog/')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'blog/login_form.html', {'form':form})
+
+def registration_view(request):
+    if request.user.is_authenticated:
+        return redirect('/catalog/')
+    if request.method == 'POST':
+        form = RegistrationForm(data=request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name'],
+                password = form.cleaned_data['password'],
+                email = form.cleaned_data['email'],
+                username = form.cleaned_data['email'],
+            )
+
+    else:
+        form = RegistrationForm()
+    return render(request, 'blog/login_form.html', {'form':form})
+
+
 
