@@ -1,3 +1,10 @@
+.login h4 a  {
+    background-color: #ff9400;
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+}
+
 .page-header {
     background-color: #ff9400;
     margin-top: 0;

@@ -21,19 +21,21 @@ def static_page(request):
     form = CommentForm()
     return render(request, 'blog/static_page.html', {'form':form})
 
-def creat_comment(request):
+def creat_comment(request,pk):
     # new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
     # new_user.set_password(request.POST.get('password'))
     # new_user.save()
-    context={}
-    if request.method == 'POST':
-        form =CommentForm(request.POST)
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
         if form.is_valid():
-            print('Vse ok')
-        else:
-            print('Form ne valid')
-        context['form'] = form
-    return render(request, 'blog/static_page.html', context=context)
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/static_page.html', {'form':form})
 
 def post_new(request):
     if request.method == "POST":
@@ -87,6 +89,7 @@ def registration_view(request):
                 email = form.cleaned_data['email'],
                 username = form.cleaned_data['email'],
             )
+            return redirect('/catalog/')
 
     else:
         form = RegistrationForm()
