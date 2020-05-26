@@ -1,8 +1,8 @@
 .login h4 a  {
-    background-color: #ff9400;
+    background-color: gray;
     color: white;
-    border-radius: 5px;
     padding: 2px;
+    border-radius: 5px;
 }
 
 .page-header {
