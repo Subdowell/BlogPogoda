@@ -20,19 +20,19 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 class Comment(models.Model):
-    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post,null= True, blank= True, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    approved_comment = models.BooleanField(default=False)
+    # approved_comment = models.BooleanField(default=False)
     # text = models.TextField()
     # author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     # created = models.DateTimeField(auto_created=True, null=True, blank=True)
     # page = models.ForeignKey(Post, null=True, blank=True, on_delete=models.CASCADE)
 
-    def approve(self):
-        self.approved_comment = True
-        self.save()
+    # def approve(self):
+    #     self.approved_comment = True
+    #     self.save()
 
     def __str__(self):
         return "%s - %s - %s - " % (self.author.pk, self.pk, self.text)

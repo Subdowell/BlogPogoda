@@ -4,6 +4,7 @@ from django.utils import timezone
 from .forms import PostForm, CommentForm, RegistrationForm
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django import views
 User = get_user_model()
 
 
@@ -14,25 +15,19 @@ def post_list(request):
 
 def post_detail(request,pk):
     post = get_object_or_404(Post, pk=pk)
-    comments = Comment.objects.filter(page=post)
+    comments = Comment.objects.filter(post=post)
     return render(request, 'blog/post_detail.html', {'post':post, 'comments':comments})
 
 def static_page(request):
     form = CommentForm()
     return render(request, 'blog/static_page.html', {'form':form})
 
-def creat_comment(request,pk):
-    # new_user = User(username=request.POST.get('username'), first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'))
-    # new_user.set_password(request.POST.get('password'))
-    # new_user.save()
-    post = get_object_or_404(Post, pk=pk)
+def creat_comment(request):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            return redirect('post_detail', pk=post.pk)
+            form.save(commit=False)
+            return redirect('post_detail', pk=form.cleaned_data['post'].pk)
     else:
         form = CommentForm()
     return render(request, 'blog/static_page.html', {'form':form})
@@ -64,21 +59,30 @@ def post_edit(request,pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form':form})
 
+# class LoginClassBasedView(views.generic.edit.FormView):
+#     form_class = AuthenticationForm
+#     success_url = '/'
+#     def form_valid(self, form):
+#         user = form.get_user()
+#         login(self.request, user)
+#         return super().form_valid(form)
+#
 def login_view(request):
-
+    if request.user.is_authenticated:
+        return redirect('/')
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('/catalog/')
+            return redirect('/')
     else:
         form = AuthenticationForm()
     return render(request, 'blog/login_form.html', {'form':form})
 
 def registration_view(request):
     if request.user.is_authenticated:
-        return redirect('/catalog/')
+        return redirect('/')
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():

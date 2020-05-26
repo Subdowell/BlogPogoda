@@ -14,6 +14,15 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('author', 'text', 'post')
 
+    def save(self, commit=True):
+        comment = Comment(
+            author = self.cleaned_data['author'],
+            text = self.cleaned_data['text'],
+            post = self.cleaned_data['post']
+        )
+        comment.save()
+
+
     # text = forms.CharField(label="Text comment:", max_length=250)
     # page = forms.IntegerField(label="Id page:")
 
