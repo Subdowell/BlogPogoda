@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+
+
 urlpatterns = [
     path('', views.post_list, name='post_list'),
     path('catalog/', views.post_list, name='post_list'),
@@ -11,4 +13,6 @@ urlpatterns = [
     path('add-comment-url/', views.creat_comment),
     path('login/', views.login_view),
     path('registration/', views.registration_view),
+
+
 ]

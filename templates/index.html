@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Weather App</title>
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Погодное приложение</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="#">Главная</a>
+    <a class="p-2 text-dark" href="#">Информация</a>
+  </nav>
+  <a class="btn btn-outline-primary" href="#">Документация</a>
+</div>
+<div class="container">
+     <div class="row">
+         <div class="col-4 offset-1">
+              <h1>Погода в вашем городе</h1>
+              <form action="" method="post">
+                  {% csrf_token %}
+                  <label for="city">Город</label>
+                  {{ form.name }}
+
+                  <input type="submit" name="send" value="Узнать" class="mt-2 btn btn-danger">
+              </form>
+         </div>
+         <div class="col-4 offset-1">
+              <h1>Информация</h1>
+             {% for info in all_info %}
+             <div class="alert alert-danger">
+                 <b>Город:</b> {{ info.city }} <br>
+                 <b>Температура:</b> {{ info.temp }} <sup>о</sup> <br>
+                 <img src="http://openweathermap.org/img/w/{{ info.icon }}.png" alt="Фото погоды" class="img-thumbnail">
+             </div>
+             {% endfor %}
+         </div>
+
+     </div>
+</div>
+
+
+</body>
+</html>
