@@ -15,13 +15,16 @@
         {% endfor %}
     {% endblock %}
     {% block contentix %}
-        <h2>Последние 5 статей:</h2>
-        {% for last in last_5_posts %}
-            <div class="post1">
-                    <div class="date1">
-                        {{ last.published_date }}
-                    </div>
-                    <h4><a href="{% url 'post_detail' pk=last.pk %}">{{ last.title }}</a></h4>
-            </div>
+    <div class="last5">
+            <h2>Последние 5 статей:</h2>
+            {% for last in last_5_posts %}
+                <div class="post1">
+                        <div class="date1">
+                            {{ last.published_date }}
+                        </div>
+                        <h4><a href="{% url 'post_detail' pk=last.pk %}">{{ last.title }}</a></h4>
+                </div>
         {% endfor %}
+    </div>
+
     {% endblock %}

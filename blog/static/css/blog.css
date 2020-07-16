@@ -59,16 +59,16 @@ h1, h2, h3, h4 {
 .post1 h4 a, .post h4 a:visited {
     color: white;
     background: black;
-    border-radius: 10px;
-    padding: 5px
+    border-radius: 5px;
+    padding: 2px
     }
 
-.col-md-4 {
-background-color: #c7bfbf;
-border-radius: 25px;
 
+.last5 {
+    background-color: #708090;
+    border-radius: 15px;
+    padding: 10px;
 }
-
 .col-md-8 {
 background-color: #ada6a6;
 border-radius: 25px;
@@ -79,4 +79,8 @@ padding: 10px;
 .page-footer {
     text-align: center;
     margin-top: 85px;
+}
+.p-2 {
+    color: white
+
 }
